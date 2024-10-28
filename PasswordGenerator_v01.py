@@ -1,7 +1,7 @@
 import string
 import random
 
-# Getting password length
+# Getting password length and character selection
 
 print("Answer 'True' or 'False' based on whether you want or not")
 
