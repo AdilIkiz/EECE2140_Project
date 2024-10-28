@@ -2,7 +2,18 @@ import string
 import random
 
 # Getting password length
-length = int(input("Enter password length: "))
+
+print("Answer 'True' or 'False' based on whether you want or not")
+
+digits_bool = bool(input("Digits? "))
+letters_bool = bool(input("Letters? "))
+special_bool = bool(input("Special Characters? "))
+numbers_bool = bool(input("Numbers? "))
+
+
+def inititalization():
+	PWlength = int(input("Enter password length: "))
+	
 
 print('''Choose character set for password from these : 
 		1. Digits
@@ -48,3 +59,5 @@ for i in range(length):
 print("The random password is " + "".join(password))
 
 #klaidas
+
+
