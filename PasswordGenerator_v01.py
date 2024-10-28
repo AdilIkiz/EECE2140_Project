@@ -26,16 +26,13 @@ def generate_password():
 	numChar = "1234567890"
 	validChars = ""
 	
-	for i in range(3):
-		if(letters_bool):
-			validChars = validChars + alphabetChar
-			letters_bool = False
-		elif(special_bool):
-			validChars = validChars + specialChar
-			special_bool = False
-		elif(numbers_bool):
-			validChars = validChars + numChar
-			numbers_bool = False
+	if(letters_bool):
+		validChars = validChars + alphabetChar
+	if(special_bool):
+		validChars = validChars + specialChar
+	if(numbers_bool):
+		validChars = validChars + numChar
+
 	for i in range(length):
 		password.append(random.choice(validChars))
 
