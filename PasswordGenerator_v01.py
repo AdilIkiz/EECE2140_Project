@@ -12,7 +12,7 @@ def user_preferences():
 		print("Would you like letters in your password?")
 		letters_bool = bool(int(input("1 for YES, 0 for NO>>")))
 		if letters_bool == 1 or letters_bool == 0:
-			decision_Bool = True
+			letter_decision_Bool = True
 		else:
 			print("Input Error")
 	special_decision_Bool = False
@@ -20,7 +20,7 @@ def user_preferences():
 		print("Would you like special characters in your password? 1 for YES, 0 for NO.")
 		special_bool = bool(int(input("1 for YES, 0 for NO>>")))
 		if special_bool == 1 or special_bool == 0:
-			letter_decision_Bool = True
+			special_decision_Bool = True
 		else:
 			print("Input Error")
 	number_decision_Bool = False
