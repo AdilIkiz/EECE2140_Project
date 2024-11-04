@@ -7,16 +7,32 @@ from email.mime.text import MIMEText
 # Getting password length and character selection
 
 def user_preferences():
-
-	print("Answer '1' or '0' based on whether you want or not. 1 being yes and 0 being no")
-
-	letters_bool = bool(int(input("Letters? ")))
-	special_bool = bool(int(input("Special Characters? ")))
-	numbers_bool = bool(int(input("Numbers? ")))
-
+	letter_decision_Bool = False
+	while not letter_decision_Bool:
+		print("Would you like letters in your password?")
+		letters_bool = bool(int(input("1 for YES, 0 for NO>>")))
+		if letters_bool == 1 or letters_bool == 0:
+			decision_Bool = True
+		else:
+			print("Input Error")
+	special_decision_Bool = False
+	while  not special_decision_Bool:
+		print("Would you like special characters in your password? 1 for YES, 0 for NO.")
+		special_bool = bool(int(input("1 for YES, 0 for NO>>")))
+		if special_bool == 1 or special_bool == 0:
+			letter_decision_Bool = True
+		else:
+			print("Input Error")
+	number_decision_Bool = False
+	while not number_decision_Bool:
+		print("Would you like numbers in your password? 1 for YES, 0 for NO.")
+		numbers_bool = bool(int(input("1 for YES, 0 for NO>>")))
+		if numbers_bool == 1 or numbers_bool == 0:
+			number_decision_Bool = True
+		else:
+			print("Input Error")
+		
 	return letters_bool, special_bool, numbers_bool
-
-
 
 def generate_password():
 
