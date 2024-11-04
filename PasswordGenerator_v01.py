@@ -1,5 +1,8 @@
 import string
 import random
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 # Getting password length and character selection
 
@@ -36,11 +39,46 @@ def generate_password():
 	for i in range(length):
 		password.append(random.choice(validChars))
 
-	print("".join(password))
+	return("".join(password))
+
+
+def send_email(sender_email, sender_password, recipient_email, subject, body):
+    try:
+        # Set up the MIME
+        message = MIMEMultipart()
+        message['From'] = sender_email
+        message['To'] = recipient_email
+        message['Subject'] = subject
+        message.attach(MIMEText(body, 'plain'))
+
+        # Connects to the Gmail Google server
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()  # Secure the connection
+        server.login(sender_email, sender_password)
+
+        # Sends the email
+        server.sendmail(sender_email, recipient_email, message.as_string())
+        server.quit()
+
+        print("Email sent successfully.")
+        
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+send_email(
+    sender_email="klaidaswik@gmail.com",
+    sender_password="wnyn kdeu dwrg rcve",
+    recipient_email=input("Whats your email to send the password to?"),
+    subject="Secure Generated Password",
+    body=generate_password()
+)
 
 
 
-generate_password()
+
+
+
+
 
 
 
