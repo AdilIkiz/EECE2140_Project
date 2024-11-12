@@ -19,7 +19,7 @@ def user_preferences():
 			print("Input Error") 
 	special_decision_Bool = False #Keeps question loop going until valid response
 	while  not special_decision_Bool:
-		print("Would you like special characters in your password? 1 for YES, 0 for NO.")
+		print("Would you like any special characters in your password? 1 for YES, 0 for NO.")
 		special_bool = bool(int(input("1 for YES, 0 for NO>>"))) #Decision Step
 		if special_bool == 1 or special_bool == 0:
 			special_decision_Bool = True
@@ -27,7 +27,7 @@ def user_preferences():
 			print("Input Error")
 	number_decision_Bool = False #Keeps question loop going until valid response
 	while not number_decision_Bool:
-		print("Would you like numbers in your password? 1 for YES, 0 for NO.")
+		print("Would you like any numbers in your password? 1 for YES, 0 for NO.")
 		numbers_bool = bool(int(input("1 for YES, 0 for NO>>"))) #Decision Step
 		if numbers_bool == 1 or numbers_bool == 0:
 			number_decision_Bool = True
