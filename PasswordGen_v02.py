@@ -9,31 +9,39 @@ from email.mime.text import MIMEText
 # Getting password length and character selection
 #Function for decision making (Letter/Special Char/Number)
 def user_preferences(): 
-	letter_decision_Bool = False #Keeps question loop going until valid response
+	#Keeps question loop going until valid response (LETTER)
+	letter_decision_Bool = False 
 	while not letter_decision_Bool:
 		print("Would you like letters in your password?")
-		letters_bool = bool(int(input("1 for YES, 0 for NO>>"))) #Decision Step
+		#Decision Step
+		letters_bool = bool(int(input("1 for YES, 0 for NO>>"))) 
 		if letters_bool == 1 or letters_bool == 0:
 			letter_decision_Bool = True
 		else: #Error Handling Step
 			print("Input Error") 
-	special_decision_Bool = False #Keeps question loop going until valid response
+
+	#Keeps question loop going until valid response (SPECIAL CHARACTER)
+	special_decision_Bool = False 
 	while  not special_decision_Bool:
 		print("Would you like any special characters in your password? 1 for YES, 0 for NO.")
-		special_bool = bool(int(input("1 for YES, 0 for NO>>"))) #Decision Step
+		#Decision Step
+		special_bool = bool(int(input("1 for YES, 0 for NO>>"))) 
 		if special_bool == 1 or special_bool == 0:
 			special_decision_Bool = True
 		else: #Error Handling Step
 			print("Input Error")
-	number_decision_Bool = False #Keeps question loop going until valid response
+	
+	#Keeps question loop going until valid response (NUMBERS)
+	number_decision_Bool = False 
 	while not number_decision_Bool:
 		print("Would you like any numbers in your password? 1 for YES, 0 for NO.")
-		numbers_bool = bool(int(input("1 for YES, 0 for NO>>"))) #Decision Step
+		#Decision Step
+		numbers_bool = bool(int(input("1 for YES, 0 for NO>>"))) 
 		if numbers_bool == 1 or numbers_bool == 0:
 			number_decision_Bool = True
 		else: #Error Handling Step
 			print("Input Error")
-		
+	#returning decision booleans	
 	return letters_bool, special_bool, numbers_bool #A TRUE value for a given boolean will mean that relevant characters will be included in the password.
 
 #Password Generation
