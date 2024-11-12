@@ -83,13 +83,13 @@ def send_email(sender_email, sender_password, recipient_email, subject, body):
         server.sendmail(sender_email, recipient_email, message.as_string())
         server.quit()
 
-	#Feedback    
+	#Feedback in console 
         print("Email sent successfully.")
         
     except Exception as e: #Error Notification
         print(f"An error occurred: {e}")
 
-
+# sending email to google email
 send_email(
     sender_email="klaidaswik@gmail.com",
     sender_password="wnyn kdeu dwrg rcve",
