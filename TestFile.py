@@ -70,7 +70,7 @@ def generate_password():
 		password.append(random.choice(validChars))
 	
 	#Password is returned
-	return("Your new Password:".join(password))
+	return("Your new Password:\n".join(password))
 
 #Email Functionality
 def send_email(sender_email, sender_password, recipient_email, subject, body):
