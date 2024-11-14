@@ -1,4 +1,4 @@
-#Getting necessary Libraries
+
 import string
 import random
 import smtplib
