@@ -1,3 +1,6 @@
+
+#importing various libraries needed
+
 import string
 import random
 import smtplib
@@ -5,6 +8,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import os
 
+# sets working directory to the folder the script is in
 script_dir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(script_dir)
 
