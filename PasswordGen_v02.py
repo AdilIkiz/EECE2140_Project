@@ -1,8 +1,6 @@
-#Getting necessary Libraries
 import string
 import random
 import smtplib
-#For Email functionality
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import os
@@ -10,140 +8,133 @@ import os
 script_dir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(script_dir)
 
-# Getting password length and character selection
-#Function for decision making (Letter/Special Char/Number)
-def user_preferences(): 
-	#Keeps question loop going until valid response (LETTER)
-	letter_decision_Bool = False 
-	while not letter_decision_Bool:
-		print("Would you like letters in your password?")
-		#Decision Step
-		letters_bool = bool(int(input("1 for YES, 0 for NO>> "))) 
-		if letters_bool == 1 or letters_bool == 0:
-			letter_decision_Bool = True
-		else: #Error Handling Step
-			print("Input Error") 
+class PasswordManager:
+    def __init__(self):
+        self.pw = ""
+        self.letters_bool = False
+        self.special_bool = False
+        self.numbers_bool = False
 
-	#Keeps question loop going until valid response (SPECIAL CHARACTER)
-	special_decision_Bool = False 
-	while  not special_decision_Bool:
-		print("Would you like any special characters in your password? 1 for YES, 0 for NO.")
-		#Decision Step
-		special_bool = bool(int(input("1 for YES, 0 for NO>> "))) 
-		if special_bool == 1 or special_bool == 0:
-			special_decision_Bool = True
-		else: #Error Handling Step
-			print("Input Error")
-	
-	#Keeps question loop going until valid response (NUMBERS)
-	number_decision_Bool = False 
-	while not number_decision_Bool:
-		print("Would you like any numbers in your password? 1 for YES, 0 for NO.")
-		#Decision Step
-		numbers_bool = bool(int(input("1 for YES, 0 for NO>> "))) 
-		if numbers_bool == 1 or numbers_bool == 0:
-			number_decision_Bool = True
-		else: #Error Handling Step
-			print("Input Error")
-	#returning decision booleans	
-	return letters_bool, special_bool, numbers_bool #A TRUE value for a given boolean will mean that relevant characters will be included in the password.
+    # Function for decision making (Letter/Special Char/Number)
+    def user_preferences(self):
+        # Keeps question loop going until valid response (LETTER)
+        while True:
+            print("Would you like letters in your password?")
+            letters_bool = bool(int(input("1 for YES, 0 for NO>> ")))
+            if letters_bool in [0, 1]:
+                self.letters_bool = letters_bool
+                break
+            else:
+                print("Input Error")
+        
+        # Keeps question loop going until valid response (SPECIAL CHARACTER)
+        while True:
+            print("Would you like any special characters in your password? 1 for YES, 0 for NO.")
+            special_bool = bool(int(input("1 for YES, 0 for NO>> ")))
+            if special_bool in [0, 1]:
+                self.special_bool = special_bool
+                break
+            else:
+                print("Input Error")
+        
+        # Keeps question loop going until valid response (NUMBERS)
+        while True:
+            print("Would you like any numbers in your password? 1 for YES, 0 for NO.")
+            numbers_bool = bool(int(input("1 for YES, 0 for NO>> ")))
+            if numbers_bool in [0, 1]:
+                self.numbers_bool = numbers_bool
+                break
+            else:
+                print("Input Error")
 
-#Password Generation
-def generate_password(): 
-	letters_bool, special_bool, numbers_bool = user_preferences() #Calling Decision Making Function, Assigning Boolean Values
-	length = int(input("Enter password length: ")) #Password Lenght
-	
-	password = [] #Initiating empty list as password
+    # Password Generation
+    def generate_password(self):
+        self.user_preferences()  # Calling Decision Making Function
 
-	#Character Bank (Boolean values dictate their involvement)
-	alphabetChar = "abcdefghijklmnopqrstuvwxyz"
-	specialChar = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
-	numChar = "1234567890"
-	validChars = ""
+        length = int(input("Enter password length: "))  # Password Length
+        password = []  # Initiating empty list as password
 
-	#Adding Chars into the possible mix given the boolean decision
-	if(letters_bool):
-		validChars = validChars + alphabetChar
-	if(special_bool):
-		validChars = validChars + specialChar
-	if(numbers_bool):
-		validChars = validChars + numChar
-	
-	#For a given lenght, a random characted from the mix is chosen and appended into blank password list.
-	for i in range(length):
-		password.append(random.choice(validChars))
-	
-	#Password is returned
-	return("".join(password))
-#generates a password
-PW = generate_password()
+        # Character Bank (Boolean values dictate their involvement)
+        alphabetChar = "abcdefghijklmnopqrstuvwxyz"
+        specialChar = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
+        numChar = "1234567890"
+        validChars = ""
 
-#Email Functionality
-def send_email(sender_email, sender_password, recipient_email, subject):
-	try:
-		# Set up the MIME
-		message = MIMEMultipart()
-		message['From'] = sender_email
-		message['To'] = recipient_email
-		message['Subject'] = subject
+        # Adding Chars into the possible mix given the boolean decision
+        if self.letters_bool:
+            validChars += alphabetChar
+        if self.special_bool:
+            validChars += specialChar
+        if self.numbers_bool:
+            validChars += numChar
 
-		#accesses the html file
-		with open('email_html/email_body.html', 'r') as file:
-			html_content = file.read().replace("{PASS}", PW)
-		# Attach the HTML part
-		message.attach(MIMEText(html_content, 'html'))
+        # For a given length, a random character from the mix is chosen and appended into blank password list.
+        for _ in range(length):
+            password.append(random.choice(validChars))
 
-		# Connects to the Gmail Google server
-		server = smtplib.SMTP('smtp.gmail.com', 587)
-		server.starttls()  # Secure the connection
-		server.login(sender_email, sender_password)
+        self.pw = "".join(password)  # Store password
 
-		# Sends the email
-		server.sendmail(sender_email, recipient_email, message.as_string())
-		server.quit()
-
-	#Feedback in console 
-		print("Email sent successfully.")
-		
-	except Exception as e: #Error Notification
-		print(f"An error occurred: {e}")
-
-# sending email to google email
-send_email(
-	sender_email="klaidaswik@gmail.com",
-	sender_password="wnyn kdeu dwrg rcve",
-	recipient_email=input("Whats your email to send the password to? "),
-	subject="Secure Generated Password",
-)
+        return self.pw
 
 
+class EmailManager:
+    def __init__(self, sender_email, sender_password, recipient_email, subject):
+        self.sender_email = sender_email
+        self.sender_password = sender_password
+        self.recipient_email = recipient_email
+        self.subject = subject
+        self.server = None
+
+    def send_email(self, password):
+        try:
+            # Set up the MIME
+            message = MIMEMultipart()
+            message['From'] = self.sender_email
+            message['To'] = self.recipient_email
+            message['Subject'] = self.subject
+
+            # Accesses the html file
+            with open('email_html/email_body.html', 'r') as file:
+                html_content = file.read().replace("{PASS}", password)
+
+            # Attach the HTML part
+            message.attach(MIMEText(html_content, 'html'))
+
+            # Connect to the Gmail Google server
+            self.server = smtplib.SMTP('smtp.gmail.com', 587)
+            self.server.starttls()  # Secure the connection
+            self.server.login(self.sender_email, self.sender_password)
+
+            # Sends the email
+            self.server.sendmail(self.sender_email, self.recipient_email, message.as_string())
+            self.server.quit()
+
+            print("Email sent successfully.")
+        
+        except Exception as e:  # Error Notification
+            print(f"An error occurred: {e}")
 
 
+class PasswordEmailManager:
+    def __init__(self, sender_email, sender_password, recipient_email, subject):
+        self.password_manager = PasswordManager()
+        self.email_manager = EmailManager(sender_email, sender_password, recipient_email, subject)
+
+    def execute(self):
+        # Generate password
+        password = self.password_manager.generate_password()
+
+        # Send email with generated password
+        self.email_manager.send_email(password)
 
 
+if __name__ == "__main__":
+    # Set up your sender email, password, recipient email, and subject
+    sender_email = "klaidaswik@gmail.com"
+    sender_password = "wnyn kdeu dwrg rcve"
+    recipient_email = input("What's your email to send the password to? ")
+    subject = "Secure Generated Password"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    # Create an instance of PasswordEmailManager and run it
+    manager = PasswordEmailManager(sender_email, sender_password, recipient_email, subject)
+    manager.execute()
