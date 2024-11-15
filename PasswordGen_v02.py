@@ -5,6 +5,10 @@ import smtplib
 #For Email functionality
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import os
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+os.chdir(script_dir)
 
 # Getting password length and character selection
 #Function for decision making (Letter/Special Char/Number)
@@ -14,7 +18,7 @@ def user_preferences():
 	while not letter_decision_Bool:
 		print("Would you like letters in your password?")
 		#Decision Step
-		letters_bool = bool(int(input("1 for YES, 0 for NO>>"))) 
+		letters_bool = bool(int(input("1 for YES, 0 for NO>> "))) 
 		if letters_bool == 1 or letters_bool == 0:
 			letter_decision_Bool = True
 		else: #Error Handling Step
@@ -25,7 +29,7 @@ def user_preferences():
 	while  not special_decision_Bool:
 		print("Would you like any special characters in your password? 1 for YES, 0 for NO.")
 		#Decision Step
-		special_bool = bool(int(input("1 for YES, 0 for NO>>"))) 
+		special_bool = bool(int(input("1 for YES, 0 for NO>> "))) 
 		if special_bool == 1 or special_bool == 0:
 			special_decision_Bool = True
 		else: #Error Handling Step
@@ -36,7 +40,7 @@ def user_preferences():
 	while not number_decision_Bool:
 		print("Would you like any numbers in your password? 1 for YES, 0 for NO.")
 		#Decision Step
-		numbers_bool = bool(int(input("1 for YES, 0 for NO>>"))) 
+		numbers_bool = bool(int(input("1 for YES, 0 for NO>> "))) 
 		if numbers_bool == 1 or numbers_bool == 0:
 			number_decision_Bool = True
 		else: #Error Handling Step
@@ -71,39 +75,45 @@ def generate_password():
 	
 	#Password is returned
 	return("".join(password))
+#generates a password
+PW = generate_password()
 
 #Email Functionality
-def send_email(sender_email, sender_password, recipient_email, subject, body):
-    try:
-        # Set up the MIME
-        message = MIMEMultipart()
-        message['From'] = sender_email
-        message['To'] = recipient_email
-        message['Subject'] = subject
-        message.attach(MIMEText(body, 'plain'))
+def send_email(sender_email, sender_password, recipient_email, subject):
+	try:
+		# Set up the MIME
+		message = MIMEMultipart()
+		message['From'] = sender_email
+		message['To'] = recipient_email
+		message['Subject'] = subject
 
-        # Connects to the Gmail Google server
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.starttls()  # Secure the connection
-        server.login(sender_email, sender_password)
+		#accesses the html file
+		with open('email_html/email_body.html', 'r') as file:
+			html_content = file.read().replace("{PASS}", PW)
+		# Attach the HTML part
+		message.attach(MIMEText(html_content, 'html'))
 
-        # Sends the email
-        server.sendmail(sender_email, recipient_email, message.as_string())
-        server.quit()
+		# Connects to the Gmail Google server
+		server = smtplib.SMTP('smtp.gmail.com', 587)
+		server.starttls()  # Secure the connection
+		server.login(sender_email, sender_password)
+
+		# Sends the email
+		server.sendmail(sender_email, recipient_email, message.as_string())
+		server.quit()
 
 	#Feedback in console 
-        print("Email sent successfully.")
-        
-    except Exception as e: #Error Notification
-        print(f"An error occurred: {e}")
+		print("Email sent successfully.")
+		
+	except Exception as e: #Error Notification
+		print(f"An error occurred: {e}")
 
 # sending email to google email
 send_email(
-    sender_email="klaidaswik@gmail.com",
-    sender_password="wnyn kdeu dwrg rcve",
-    recipient_email=input("Whats your email to send the password to?"),
-    subject="Secure Generated Password",
-    body=generate_password()
+	sender_email="klaidaswik@gmail.com",
+	sender_password="wnyn kdeu dwrg rcve",
+	recipient_email=input("Whats your email to send the password to? "),
+	subject="Secure Generated Password",
 )
 
 
