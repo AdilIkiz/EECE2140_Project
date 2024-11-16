@@ -19,7 +19,7 @@ class PasswordManager:
         self.special_bool = False
         self.numbers_bool = False
 
-    # Function for decision making (Letter/Special Char/Number)
+    # Function for decision making (Letter/Special and Char/Number)
     def user_preferences(self):
         # Keeps question loop going until valid response (LETTER)
         while True:
