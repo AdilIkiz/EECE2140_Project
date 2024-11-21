@@ -23,8 +23,8 @@ class PasswordManager:
     def user_preferences(self):
         # Keeps question loop going until valid response (LETTER)
         while True:
-            print("Would you like letters in your password?")
-            letters_bool = bool(int(input("1 for YES, 0 for NO>> ")))
+            print("Would you like letters in your password? 1 for YES, 0 for NO.")
+            letters_bool = input("1 for YES, 0 for NO>> ")
             if letters_bool in [0, 1]:
                 self.letters_bool = letters_bool
                 break
@@ -34,7 +34,7 @@ class PasswordManager:
         # Keeps question loop going until valid response (SPECIAL CHARACTER)
         while True:
             print("Would you like any special characters in your password? 1 for YES, 0 for NO.")
-            special_bool = bool(int(input("1 for YES, 0 for NO>> ")))
+            special_bool = input("1 for YES, 0 for NO>> ")
             if special_bool in [0, 1]:
                 self.special_bool = special_bool
                 break
@@ -44,7 +44,7 @@ class PasswordManager:
         # Keeps question loop going until valid response (NUMBERS)
         while True:
             print("Would you like any numbers in your password? 1 for YES, 0 for NO.")
-            numbers_bool = bool(int(input("1 for YES, 0 for NO>> ")))
+            numbers_bool = input("1 for YES, 0 for NO>> ")
             if numbers_bool in [0, 1]:
                 self.numbers_bool = numbers_bool
                 break
